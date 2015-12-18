@@ -41,7 +41,7 @@ rover.brake(10)
 rover.turn_off
 gets
 
-#Question 2
+# Question 2
 
 prompt "2. Add an accessor method to your MyCar class to change and view the color of your car. Then add an accessor method that allows you to view, but not modify, the year of your car."
 gets
@@ -80,7 +80,7 @@ prompt rover.color
 prompt rover.year
 gets
 
-#Question 3
+# Question 3
 
 prompt "3. You want to create a nice interface that allows you to accurately describe the action you want your program to perform. Create a method called spray_paint that can be called on an object and will modify the color of the car."
 gets
