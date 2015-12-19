@@ -21,11 +21,27 @@ WINNERS = [['rock', 'scissors'], ['paper', 'rock'], ['scissors', 'paper']]
 TIE = [['rock', 'rock'], ['paper', 'paper'], ['scissors', 'scissors']]
 
 class Player
-  attr_accessor :move
+  attr_accessor :move, :name
 
   def initialize(player_type = :human)
     @player_type = player_type
     @move = nil
+    set_name
+  end
+
+  def set_name
+    if human?
+      n = ""
+      loop do
+        puts "What's your name?"
+        n = gets.chomp
+        break unless n.empty?
+        puts "Sorry, must enter a value."
+      end
+      self.name = n
+    else
+      self.name = ['R2D2', 'John', 'Master Chief', 'C3P0', 'WALL-E'].sample
+    end
   end
 
   def choose
@@ -82,21 +98,21 @@ class RPSGame
   end
 
   def display_winner
-    puts "You chose #{human.move}."
-    puts "The computer chose #{computer.move}."
+    puts "#{human.name} chose #{human.move}."
+    puts "#{computer.name} chose #{computer.move}."
     if WINNERS.include? [human.move, computer.move]
-      puts "You beat the computer!"
+      puts "#{human.name} beat the computer!"
     elsif TIE.include? [human.move, computer.move]
       puts "It's a tie!"
     else
-      puts "The computer won..."
+      puts "#{computer.name} won..."
     end
   end
   
   def play_again?
     answer = nil
     loop do
-      puts "Would you like to play again? (y/n)"
+      puts "Would #{human.name} like to play again? (y/n)"
       answer = gets.chomp
       break if ['y', 'n'].include? answer
       puts "Please enter a valid answer (y/n)."
