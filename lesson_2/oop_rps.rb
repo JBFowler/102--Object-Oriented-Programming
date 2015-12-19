@@ -17,6 +17,8 @@
 # - compare
 
 CHOICES = ['rock', 'paper', 'scissors']
+WINNERS = [['rock', 'scissors'], ['paper', 'rock'], ['scissors', 'paper']]
+TIE = [['rock', 'rock'], ['paper', 'paper'], ['scissors', 'scissors']]
 
 class Player
   attr_accessor :move
@@ -77,6 +79,18 @@ class RPSGame
 
   def display_goodbye_message
     puts "Thanks for playing Rock, Paper, Scissors!"
+  end
+
+  def display_winner
+    puts "You chose #{human.move}."
+    puts "The computer chose #{computer.move}."
+    if WINNERS.include? [human.move, computer.move]
+      puts "You beat the computer!"
+    elsif TIE.include? [human.move, computer.move]
+      puts "It's a tie!"
+    else
+      puts "The computer won..."
+    end
   end
   
   def play
