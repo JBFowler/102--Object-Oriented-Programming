@@ -16,6 +16,18 @@
 
 # - compare
 
+# Answer to questions from refactoring 1
+
+# Is this design, with Human and Computer sub-classes, better? Why, or why not?
+# This design is better, it is much cleaner and allows the superclass to only have methods available to both classes, and the subclasses to have their methods to themselves.
+
+# What is the primary improvement of this new design?
+# The primary improvement is allowing the subclasses to have only the functionality they need.
+
+# What is the primary drawback of this new design?
+# The primary drawback is adding additional classes, which may add to the complexity of the program at first look, but after understanding what is going on, it actually simplifies it.
+#----------------------------------------------------------------------------------------------------------------------------------------
+
 CHOICES = ['rock', 'paper', 'scissors']
 WINNERS = [['rock', 'scissors'], ['paper', 'rock'], ['scissors', 'paper']]
 TIE = [['rock', 'rock'], ['paper', 'paper'], ['scissors', 'scissors']]
