@@ -93,11 +93,27 @@ class RPSGame
     end
   end
   
+  def play_again?
+    answer = nil
+    loop do
+      puts "Would you like to play again? (y/n)"
+      answer = gets.chomp
+      break if ['y', 'n'].include? answer
+      puts "Please enter a valid answer (y/n)."
+    end
+
+    return true if answer == 'y'
+    return false
+  end
+
   def play
     display_welcome_message
-    human.choose
-    computer.choose
-    display_winner
+    loop do
+      human.choose
+      computer.choose
+      display_winner
+      break unless play_again?
+    end
     display_goodbye_message
   end
 end
