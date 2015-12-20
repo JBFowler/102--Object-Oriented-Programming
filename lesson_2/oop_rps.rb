@@ -26,6 +26,14 @@
 
 # What is the primary drawback of this new design?
 # The primary drawback is adding additional classes, which may add to the complexity of the program at first look, but after understanding what is going on, it actually simplifies it.
+
+# Answer to questions from refactoring 2
+
+# What is the primary improvement of this new design?
+# The primary improvement is cleaning up the code by allowing the move to be an object and determing the winner in a seperate class from the PRSGame class.
+
+# What is the primary drawback of this new design?
+# The primary drawback is that it adds a fair amount of complexity to the program.
 #----------------------------------------------------------------------------------------------------------------------------------------
 
 # CHOICES = ['rock', 'paper', 'scissors']
