@@ -28,9 +28,59 @@
 # The primary drawback is adding additional classes, which may add to the complexity of the program at first look, but after understanding what is going on, it actually simplifies it.
 #----------------------------------------------------------------------------------------------------------------------------------------
 
-CHOICES = ['rock', 'paper', 'scissors']
-WINNERS = [['rock', 'scissors'], ['paper', 'rock'], ['scissors', 'paper']]
-TIE = [['rock', 'rock'], ['paper', 'paper'], ['scissors', 'scissors']]
+# CHOICES = ['rock', 'paper', 'scissors']
+# WINNERS = [['rock', 'scissors'], ['paper', 'rock'], ['scissors', 'paper']]
+# TIE = [['rock', 'rock'], ['paper', 'paper'], ['scissors', 'scissors']]
+
+class Move
+  VALUES = ['rock', 'paper', 'scissors']
+
+  def initialize(value)
+    @value = value
+  end
+
+  def scissors?
+    @value == 'scissors'
+  end
+
+  def paper?
+    @value == 'paper'
+  end
+
+  def rock?
+    @value == 'rock'
+  end
+
+  def >(other_move)
+    if rock?
+      return true if other_move.scissors?
+      return false
+    elsif paper?
+      return true if other_move.rock?
+      return false
+    elsif scissors?
+      return true if other_move.paper?
+      return false
+    end
+  end
+
+  def <(other_move)
+    if rock?
+      return true if other_move.paper?
+      return false
+    elsif paper?
+      return true if other_move.scissors?
+      return false
+    elsif scissors?
+      return true if other_move.rock?
+      return false
+    end
+  end
+
+  def to_s
+    @value
+  end
+end
 
 class Player
   attr_accessor :move, :name
@@ -57,10 +107,11 @@ class Human < Player
     loop do
       puts "Please choose rock, paper, or scissors:"
       choice = gets.chomp
-      break if CHOICES.include? choice
+      break if Move::VALUES.include? choice
+      # break if CHOICES.include? choice
       puts "Sorry, invalid choice."
     end
-    self.move = choice
+    self.move = Move.new(choice)
   end
 end
 
@@ -70,7 +121,8 @@ class Computer < Player
   end
 
   def choose
-    self.move = CHOICES.sample
+    self.move = Move.new(Move::VALUES.sample)
+    # self.move = CHOICES.sample
   end
 end
 
@@ -94,13 +146,21 @@ class RPSGame
   def display_winner
     puts "#{human.name} chose #{human.move}."
     puts "#{computer.name} chose #{computer.move}."
-    if WINNERS.include? [human.move, computer.move]
+
+    if human.move > computer.move
       puts "#{human.name} beat the computer!"
-    elsif TIE.include? [human.move, computer.move]
-      puts "It's a tie!"
-    else
+    elsif human.move < computer.move
       puts "#{computer.name} won..."
+    else  
+      puts "It's a tie!"
     end
+    # if WINNERS.include? [human.move, computer.move]
+    #   puts "#{human.name} beat the computer!"
+    # elsif TIE.include? [human.move, computer.move]
+    #   puts "It's a tie!"
+    # else
+    #   puts "#{computer.name} won..."
+    # end
   end
   
   def play_again?
