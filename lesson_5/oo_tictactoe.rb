@@ -13,6 +13,10 @@
 require 'pry'
 
 class Board
+  WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
+                  [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
+                  [[1, 5, 9], [3, 5, 7]]              # diagonals
+
   def initialize
     @squares = {}
     (1..9).each { |key| @squares[key] = Square.new }
@@ -32,6 +36,16 @@ class Board
 
   def full?
     unmarked_keys.empty?
+  end
+
+  def someone_won?
+    !!detect_winner
+  end
+
+  # returns winning marker or nil
+  def detect_winner
+    WINNING_LINES.each do |line|
+      @squares[line[0]].marker == 'X'
   end
 end
 
@@ -121,7 +135,15 @@ class TTTGame
 
   def display_result
     display_board
-    puts "The board is full!"
+
+    case board.detect_winner
+    when human.marker
+      puts "You won!"
+    when computer.marker
+      puts "Computer won..."
+    else
+      puts "The board is full!"
+    end
   end
 
   def play
@@ -129,11 +151,11 @@ class TTTGame
     display_board
     loop do
       human_moves
-      break if board.full?
-      # break if someone_won? || board_full?
+      break if board.someone_won? || board.full?
+  
       computer_moves
-      break if board.full?
-      # break if someone_won? || board_full?
+      break if board.someone_won? || board.full?
+  
       display_board
     end
     display_result
