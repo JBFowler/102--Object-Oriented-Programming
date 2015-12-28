@@ -21,7 +21,7 @@ class Board
     @squares = {}
     reset
   end
-  
+
   def get_square_at(key)
     @squares[key]
   end
@@ -56,17 +56,17 @@ class Board
   def draw
     prints_board = <<-BOARD
 
-         |     |     
-      #{@squares[1]}  |  #{@squares[2]}  |  #{@squares[3]}  
-         |     |     
+         |     |
+      #{@squares[1]}  |  #{@squares[2]}  |  #{@squares[3]}
+         |     |
     -----+-----+-----
-         |     |     
-      #{@squares[4]}  |  #{@squares[5]}  |  #{@squares[6]}  
-         |     |     
+         |     |
+      #{@squares[4]}  |  #{@squares[5]}  |  #{@squares[6]}
+         |     |
     -----+-----+-----
-         |     |     
-      #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}  
-         |     |     
+         |     |
+      #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}
+         |     |
 
     BOARD
     puts prints_board
@@ -132,17 +132,17 @@ class TTTGame
   def play
     display_welcome_message
     clear
-    
+
     loop do
       display_board
 
       loop do
         human_moves
         break if board.someone_won? || board.full?
-    
+
         computer_moves
         break if board.someone_won? || board.full?
-    
+
         clear_screen_and_display_board
       end
       display_result
@@ -222,7 +222,7 @@ class TTTGame
       break if %w(y n).include? answer
       puts "Sorry, must by y or n"
     end
-    
+
     answer == 'y'
   end
 
