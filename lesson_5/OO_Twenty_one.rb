@@ -28,75 +28,122 @@
 # Game
 # - start
 
-class Player
-  def initialize
-    
-  end
-
-  def hit
-    
-  end
-
-  def stay
-    
-  end
-
-  def busted?
-    
-  end
-
-  def total
-    
-  end
-end
-
-class Dealer
-  def initialize
-    
-  end
-
-  def deal
-    
-  end
-
-  def hit
-    
-  end
-
-  def stay
-    
-  end
-
-  def busted?
-    
-  end
-
-  def total
-    
-  end
-end
-
-class Participant
-  
-end
-
 class Deck
+  attr_accessor :cards
+
   def initialize
-    
+    @cards = []
+    Card::SUITS.each do |suit|
+      Card::VALUES.each do |value|
+        @cards << Card.new(suit, value)
+      end
+    end
+
+    mix_cards!
   end
 
-  def deal
-    
+  def mix_cards!
+    cards.shuffle!
+  end
+
+  def deal_a_card
+    cards.pop
   end
 end
 
 class Card
+  SUITS = %w(H D C S)
+  VALUES = %w(2 3 4 5 6 7 8 9 10 J Q K A)
+
+  def initialize(suit, value)
+    @suit = suit
+    @value = value
+  end
+end
+
+module Hand
+  def take_card(card_from_deck)
+    cards << card_from_deck
+  end
+end
+
+class Participant
+  include Hand
+
+  attr_accessor :name, :cards
   def initialize
+    @cards = []
+    set_name
+  end
+end
+
+class Player < Participant
+  def set_name
+    name = ''
+    loop do
+      puts "What is your name?"
+      name = gets.chomp
+      break unless name.empty?
+      puts "Please enter a name, cannot leave blank."
+    end
+    self.name = name
+  end
+
+  def hit
+    
+  end
+
+  def stay
+    
+  end
+
+  def busted?
+    
+  end
+
+  def total
     
   end
 end
 
-class Game
+class Dealer < Participant
+  HERO = ['Arthas', 'Master Chief', 'Obi Won', 'Baymax', 'Voldemort', 'Bruce Wayne']
+
+  def set_name
+    self.name = HERO.sample
+  end
+
+  def hit
+    
+  end
+
+  def stay
+    
+  end
+
+  def busted?
+    
+  end
+
+  def total
+    
+  end
+end
+
+class TwentyOneGame
+  def initialize
+    @deck = Deck.new
+    @player = Player.new
+    @dealer = Dealer.new
+  end
+
+  def deal_cards
+    2.times do
+      player.take_card(deck.deal_a_card)
+      dealer.take_card(deck.deal_a_card)
+    end
+  end
+
   def start
     deal_cards
     show_initial_cards
@@ -106,4 +153,4 @@ class Game
   end
 end
 
-Game.new.start
+TwentyOneGame.new.start
