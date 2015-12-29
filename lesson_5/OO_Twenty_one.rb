@@ -28,6 +28,8 @@
 # Game
 # - start
 
+require 'pry'
+
 class Deck
   attr_accessor :cards
 
@@ -83,6 +85,22 @@ class Card
     when 'S' then 'Spades'
     end
   end
+
+  def ace?
+    value == 'Ace'
+  end
+
+  def king?
+    value == 'King'
+  end
+
+  def queen?
+    value == 'Queen'
+  end
+  
+  def jack?
+    value == 'Jack'
+  end
 end
 
 module Hand
@@ -90,11 +108,32 @@ module Hand
     cards << card_from_deck
   end
 
+  def total
+    total = 0
+    cards.each do |card|
+      if card.ace?
+        total += 11
+      elsif card.jack? || card.queen? || card.king?
+        total += 10
+      else
+        total += card.value.to_i
+      end
+    end
+    # correct for Aces
+    cards.select(&:ace?).count.times do
+      break if total <= 21
+      total -= 10
+    end
+
+    total
+  end
+
   def show_hand
     puts "#{name}'s cards:".center(60, '-')
     cards.each do |card|
       puts "#{card}".center(60)
     end
+    puts "Total: #{total}".center(60)
   end
 end
 
@@ -135,10 +174,6 @@ class Player < Participant
   def busted?
     
   end
-
-  def total
-    
-  end
 end
 
 class Dealer < Participant
@@ -164,10 +199,6 @@ class Dealer < Participant
   end
 
   def busted?
-    
-  end
-
-  def total
     
   end
 end
