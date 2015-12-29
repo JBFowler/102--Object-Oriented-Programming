@@ -191,18 +191,14 @@ class Dealer < Participant
     puts "".center(60, "-")
   end
 
-  def hit
-    
-  end
-
-  def stay
-    
+  def seventeen?
+    total > 17
   end
 
 end
 
 class TwentyOneGame
-  attr_reader :player, :dealer, :deck
+  attr_accessor :player, :dealer, :deck
 
   def initialize
     @deck = Deck.new
@@ -212,6 +208,18 @@ class TwentyOneGame
 
   def welcome_player
     puts "Welcome to 21 #{player.name}."
+  end
+
+  def busted_message
+    if player.busted?
+      puts "I'm sorry you busted!  #{dealer.name} wins..."
+    elsif dealer.busted?
+      puts "#{dealer.name} busted, you win!!!"
+    end 
+  end
+
+  def goodbye_message
+    puts "Thanks for playing 21!"
   end
 
   def deal_cards
@@ -224,6 +232,11 @@ class TwentyOneGame
   def show_initial_cards
     player.show_flop
     dealer.show_flop
+  end
+
+  def show_cards
+    player.show_hand
+    dealer.show_hand
   end
 
   def player_turn
@@ -248,13 +261,62 @@ class TwentyOneGame
     end
   end
 
+  def dealer_turn
+    puts "The dealer will now go."
+    loop do
+      dealer.show_hand
+      if dealer.busted? || dealer.seventeen?
+        break
+      else
+        dealer.take_card(deck.deal_a_card)
+        puts "Dealer takes card."
+      end
+    end
+  end
+
+  def play_again?
+    puts "Would you like to play again? (y/n)"
+    answer = gets.chomp
+    answer.start_with? 'y'
+  end
+
+  def reset
+    self.deck = Deck.new
+    player.cards = []
+    dealer.cards = []
+  end
+
   def start
-    welcome_player
-    deal_cards
-    show_initial_cards
-    player_turn
-    # dealer_turn
-    # show_result
+    loop do
+      welcome_player
+      deal_cards
+      show_initial_cards
+      player_turn
+      if player.busted?
+        busted_message
+        if play_again?
+          reset
+          next
+        else
+          goodbye_message
+          break
+        end
+      end
+      dealer_turn
+      if dealer.busted?
+        busted_message
+        if play_again?
+          reset
+          next
+        else
+          goodbye_message
+          break
+        end
+      end
+
+      show_cards
+      # show_result
+    end
   end
 end
 
