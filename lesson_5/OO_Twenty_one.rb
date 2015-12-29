@@ -135,6 +135,10 @@ module Hand
     end
     puts "Total: #{total}".center(60)
   end
+
+  def busted?
+    total > 21
+  end
 end
 
 class Participant
@@ -171,9 +175,6 @@ class Player < Participant
     
   end
 
-  def busted?
-    
-  end
 end
 
 class Dealer < Participant
@@ -198,9 +199,6 @@ class Dealer < Participant
     
   end
 
-  def busted?
-    
-  end
 end
 
 class TwentyOneGame
@@ -228,11 +226,33 @@ class TwentyOneGame
     dealer.show_flop
   end
 
+  def player_turn
+    loop do
+      puts "Would #{player.name} like to hit or stay? (h/s)"
+      answer = nil
+      loop do
+        answer = gets.chomp
+        break if ['h', 's'].include?(answer)
+        puts "You must enter 'h' or 's'."
+      end
+
+      if answer == 's'
+        puts "You selected to stay."
+        break
+      else
+        player.take_card(deck.deal_a_card)
+        puts "You selected to hit!"
+        player.show_hand
+        break if player.busted?
+      end
+    end
+  end
+
   def start
     welcome_player
     deal_cards
     show_initial_cards
-    # player_turn
+    player_turn
     # dealer_turn
     # show_result
   end
