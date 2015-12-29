@@ -192,7 +192,7 @@ class Dealer < Participant
   end
 
   def seventeen?
-    total > 17
+    total >= 17
   end
 
 end
@@ -235,8 +235,10 @@ class TwentyOneGame
   end
 
   def show_cards
+    puts ""
     player.show_hand
     dealer.show_hand
+    puts ""
   end
 
   def player_turn
@@ -262,16 +264,26 @@ class TwentyOneGame
   end
 
   def dealer_turn
-    puts "The dealer will now go."
+    puts "#{dealer.name} will now go."
     loop do
       dealer.show_hand
       if dealer.busted? || dealer.seventeen?
         break
       else
         dealer.take_card(deck.deal_a_card)
-        puts "Dealer takes card."
+        puts "#{dealer.name} takes card."
       end
     end
+  end
+
+  def show_result
+    if player.total > dealer.total
+      puts "Congrats, you win!"
+    elsif dealer.total > player.total
+      puts "Bummer, #{dealer.name} wins..."
+    else
+      puts "It's a tie!"
+    end 
   end
 
   def play_again?
@@ -309,14 +321,16 @@ class TwentyOneGame
           reset
           next
         else
-          goodbye_message
           break
         end
       end
 
       show_cards
-      # show_result
+      show_result
+      play_again? ? reset : break
     end
+
+    goodbye_message
   end
 end
 
