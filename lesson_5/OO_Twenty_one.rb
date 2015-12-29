@@ -91,8 +91,9 @@ module Hand
   end
 
   def show_hand
+    puts "#{name}'s cards:".center(60, '-')
     cards.each do |card|
-      puts card
+      puts "#{card}".center(60)
     end
   end
 end
@@ -119,6 +120,10 @@ class Player < Participant
     self.name = name
   end
 
+  def show_flop
+    show_hand
+  end
+
   def hit
     
   end
@@ -141,6 +146,13 @@ class Dealer < Participant
 
   def set_name
     self.name = HERO.sample
+  end
+
+  def show_flop
+    puts "#{name}'s cards:".center(60, '-')
+    puts "#{cards.first}".center(60)
+    puts "Second card is hidden until dealer's turn.".center(60)
+    puts "".center(60, "-")
   end
 
   def hit
@@ -169,6 +181,10 @@ class TwentyOneGame
     @dealer = Dealer.new
   end
 
+  def welcome_player
+    puts "Welcome to 21 #{player.name}."
+  end
+
   def deal_cards
     2.times do
       player.take_card(deck.deal_a_card)
@@ -176,14 +192,15 @@ class TwentyOneGame
     end
   end
 
-  def show_cards
-    player.show_hand
-    dealer.show_hand
+  def show_initial_cards
+    player.show_flop
+    dealer.show_flop
   end
 
   def start
+    welcome_player
     deal_cards
-    show_cards
+    show_initial_cards
     # player_turn
     # dealer_turn
     # show_result
