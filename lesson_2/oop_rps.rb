@@ -144,8 +144,10 @@ class RPSGame
   def display_winner
     if human.move > computer.move
       puts "#{human.name} beat the computer!"
+      # human.score += 1
     elsif human.move < computer.move
       puts "#{computer.name} won..."
+      # computer.score += 1
     else
       puts "It's a tie!"
     end
@@ -157,6 +159,12 @@ class RPSGame
     #   puts "#{computer.name} won..."
     # end
   end
+
+  # def display_scores
+  #   puts "Scores".center(40, '-')
+  #   2.times { print "-" * 40 }
+  #   puts "#{human.name}: #{human.score} || #{computer.name}: #{computer.score}".center(40, '-')
+  # end
 
   def play_again?
     answer = nil
@@ -178,6 +186,7 @@ class RPSGame
       computer.choose
       display_moves
       display_winner
+      # display_scores
       break unless play_again?
     end
     display_goodbye_message
