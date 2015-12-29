@@ -97,7 +97,7 @@ class Card
   def queen?
     value == 'Queen'
   end
-  
+
   def jack?
     value == 'Jack'
   end
@@ -166,15 +166,6 @@ class Player < Participant
   def show_flop
     show_hand
   end
-
-  def hit
-    
-  end
-
-  def stay
-    
-  end
-
 end
 
 class Dealer < Participant
@@ -194,7 +185,6 @@ class Dealer < Participant
   def seventeen?
     total >= 17
   end
-
 end
 
 class TwentyOneGame
@@ -215,7 +205,7 @@ class TwentyOneGame
       puts "I'm sorry you busted!  #{dealer.name} wins..."
     elsif dealer.busted?
       puts "#{dealer.name} busted, you win!!!"
-    end 
+    end
   end
 
   def goodbye_message
@@ -334,4 +324,4 @@ class TwentyOneGame
   end
 end
 
-TwentyOneGame.new.start
+TwentyOeGame.new.start
