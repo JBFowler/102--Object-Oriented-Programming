@@ -59,11 +59,41 @@ class Card
     @suit = suit
     @value = value
   end
+
+  def to_s
+    "#{value} of #{suit}."
+  end
+
+  def value
+    case @value
+    when 'J' then 'Jack'
+    when 'Q' then 'Queen'
+    when 'K' then 'King'
+    when 'A' then 'Ace'
+    else
+      @value
+    end
+  end
+
+  def suit
+    case @suit
+    when 'H' then 'Hearts'
+    when 'D' then 'Diamonds'
+    when 'C' then 'Clubs'
+    when 'S' then 'Spades'
+    end
+  end
 end
 
 module Hand
   def take_card(card_from_deck)
     cards << card_from_deck
+  end
+
+  def show_hand
+    cards.each do |card|
+      puts card
+    end
   end
 end
 
@@ -131,6 +161,8 @@ class Dealer < Participant
 end
 
 class TwentyOneGame
+  attr_reader :player, :dealer, :deck
+
   def initialize
     @deck = Deck.new
     @player = Player.new
@@ -144,12 +176,17 @@ class TwentyOneGame
     end
   end
 
+  def show_cards
+    player.show_hand
+    dealer.show_hand
+  end
+
   def start
     deal_cards
-    show_initial_cards
-    player_turn
-    dealer_turn
-    show_result
+    show_cards
+    # player_turn
+    # dealer_turn
+    # show_result
   end
 end
 
